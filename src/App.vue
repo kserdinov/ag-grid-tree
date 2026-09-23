@@ -1,13 +1,15 @@
 <script setup lang="ts">
     import type { TTreeItem } from './types/tree';
     import { TreeStore } from './store/TreeStore';
-    import TreeTable from './components/TreeTable.vue';
     import { onMounted, ref } from 'vue';
+    import LoadingState from './components/LoadingState.vue';
+    import TreeTable from './components/TreeTable.vue';
 
     const LOAD_DELAY_MS = 2000;
 
     const treeStore = new TreeStore([]);
     const items = ref<TTreeItem[]>([]);
+    const isLoading = ref(true);
 
     async function loadItems() {
         await new Promise<void>((resolve) => {
@@ -19,6 +21,7 @@
 
         treeStore.setItems(data);
         items.value = treeStore.getAll();
+        isLoading.value = false;
     }
 
     onMounted(() => {
@@ -28,7 +31,9 @@
 
 <template>
     <div :class="$style.App">
+        <LoadingState v-if="isLoading" />
         <TreeTable
+            v-else
             :items="items"
             :tree-store="treeStore"
         />
