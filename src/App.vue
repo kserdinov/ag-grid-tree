@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import type { TTreeItem } from './types/tree';
     import { TreeStore } from './store/TreeStore';
+    import TreeTable from './components/TreeTable.vue';
     import { onMounted, ref } from 'vue';
 
     const LOAD_DELAY_MS = 2000;
@@ -26,5 +27,24 @@
 </script>
 
 <template>
-    <div></div>
+    <div :class="$style.App">
+        <TreeTable
+            :items="items"
+            :tree-store="treeStore"
+        />
+    </div>
 </template>
+
+<style module>
+    :global(html),
+    :global(body),
+    :global(#app) {
+        height: 100%;
+    }
+
+    .App {
+        height: 100%;
+        padding: 16px;
+        box-sizing: border-box;
+    }
+</style>
