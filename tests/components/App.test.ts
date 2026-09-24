@@ -1,10 +1,11 @@
 // @vitest-environment jsdom
 
-import { flushPromises, mount } from '@vue/test-utils';
+import type { TTreeItem } from '@/types/tree';
+import { ITEMS_URL, LOAD_DELAY_MS } from '@/constants/app';
 import { defineComponent, h } from 'vue';
+import { flushPromises, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import App from '../../src/App.vue';
-import type { TTreeItem } from '../../src/types/tree';
+import App from '@/App.vue';
 
 const TreeTableStub = defineComponent({
     name: 'TreeTable',
@@ -55,7 +56,7 @@ describe('App', () => {
         expect(wrapper.findComponent(TreeTableStub).exists()).toBe(false);
         expect(fetchMock).not.toHaveBeenCalled();
 
-        await vi.advanceTimersByTimeAsync(1999);
+        await vi.advanceTimersByTimeAsync(LOAD_DELAY_MS - 1);
 
         expect(fetchMock).not.toHaveBeenCalled();
 
@@ -63,7 +64,7 @@ describe('App', () => {
         await flushPromises();
 
         expect(fetchMock).toHaveBeenCalledOnce();
-        expect(fetchMock).toHaveBeenCalledWith('/items.json');
+        expect(fetchMock).toHaveBeenCalledWith(ITEMS_URL);
         expect(wrapper.text()).not.toContain('Загрузка данных…');
 
         const treeTable = wrapper.findComponent(TreeTableStub);

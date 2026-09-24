@@ -1,4 +1,4 @@
-import type { TTreeItem, TTreeItemId } from '../types/tree';
+import type { TTreeItem, TTreeItemId } from '@/types/tree';
 
 export class TreeStore {
     private readonly itemsById = new Map<TTreeItemId, TTreeItem>();

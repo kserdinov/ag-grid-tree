@@ -1,6 +1,6 @@
+import type { TTreeItem } from '@/types/tree';
+import { TreeStore } from '@/store/TreeStore';
 import { describe, expect, it } from 'vitest';
-import { TreeStore } from '../../src/store/TreeStore';
-import type { TTreeItem } from '../../src/types/tree';
 
 const ITEMS_COUNT = 100_000;
 const BRANCHING = 10;

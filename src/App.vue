@@ -1,11 +1,10 @@
 <script setup lang="ts">
-    import type { TTreeItem } from './types/tree';
-    import { TreeStore } from './store/TreeStore';
+    import type { TTreeItem } from '@/types/tree';
+    import { ITEMS_URL, LOAD_DELAY_MS } from '@/constants/app';
+    import { TreeStore } from '@/store/TreeStore';
     import { onMounted, ref } from 'vue';
-    import LoadingState from './components/LoadingState.vue';
-    import TreeTable from './components/TreeTable.vue';
-
-    const LOAD_DELAY_MS = 2000;
+    import LoadingState from '@/components/LoadingState.vue';
+    import TreeTable from '@/components/TreeTable.vue';
 
     const treeStore = new TreeStore([]);
     const items = ref<TTreeItem[]>([]);
@@ -16,7 +15,7 @@
             setTimeout(resolve, LOAD_DELAY_MS);
         });
 
-        const response = await fetch('/items.json');
+        const response = await fetch(ITEMS_URL);
         const data: TTreeItem[] = await response.json();
 
         treeStore.setItems(data);
@@ -48,8 +47,8 @@
     }
 
     .App {
-        height: 100%;
-        padding: 16px;
+        height: 100dvh;
+        padding: 1rem;
         box-sizing: border-box;
     }
 </style>

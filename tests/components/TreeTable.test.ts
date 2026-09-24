@@ -1,12 +1,13 @@
 // @vitest-environment jsdom
 
 import type { ColDef, GetDataPath, ValueGetterParams } from 'ag-grid-community';
+import type { TTreeItem } from '@/types/tree';
+import type { PropType } from 'vue';
+import { TreeStore } from '@/store/TreeStore';
+import { defineComponent, h } from 'vue';
 import { mount } from '@vue/test-utils';
-import { defineComponent, h, type PropType } from 'vue';
 import { describe, expect, it } from 'vitest';
-import TreeTable from '../../src/components/TreeTable.vue';
-import { TreeStore } from '../../src/store/TreeStore';
-import type { TTreeItem } from '../../src/types/tree';
+import TreeTable from '@/components/TreeTable.vue';
 
 const AgGridVueStub = defineComponent({
     name: 'AgGridVue',

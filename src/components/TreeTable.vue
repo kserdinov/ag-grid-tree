@@ -6,11 +6,11 @@
         ModelUpdatedEvent,
         ValueGetterParams,
     } from 'ag-grid-community';
-    import type { TreeStore } from '../store/TreeStore';
-    import type { TTreeItem, TTreeItemId } from '../types/tree';
+    import type { TreeStore } from '@/store/TreeStore';
+    import type { TTreeItem, TTreeItemId } from '@/types/tree';
     import { themeQuartz } from 'ag-grid-community';
-    import { AgGridVue } from 'ag-grid-vue3';
     import { useCssModule } from 'vue';
+    import { AgGridVue } from 'ag-grid-vue3';
 
     const props = defineProps<{
         items: TTreeItem[];
@@ -18,13 +18,20 @@
     }>();
 
     const ROW_NUMBER_COLUMN_ID = 'rowNumber';
+    const TREE_DATA_DISPLAY_TYPE = 'custom';
+    const GROUP_CELL_RENDERER = 'agGroupCellRenderer';
+    const EXPAND_ALL_LEVELS = -1;
+    const CATEGORY_GROUP = 'Группа';
+    const CATEGORY_ELEMENT = 'Элемент';
+    const NUMBER_PATH_PREFIX = 'n:';
+    const STRING_PATH_PREFIX = 's:';
 
     const $style = useCssModule();
 
     const theme = themeQuartz;
     const treeData = true;
-    const treeDataDisplayType = 'custom';
-    const groupDefaultExpanded = -1;
+    const treeDataDisplayType = TREE_DATA_DISPLAY_TYPE;
+    const groupDefaultExpanded = EXPAND_ALL_LEVELS;
 
     const defaultColDef: ColDef = {
         sortable: false,
@@ -50,7 +57,7 @@
             headerName: 'Категория',
             width: 260,
             showRowGroup: true,
-            cellRenderer: 'agGroupCellRenderer',
+            cellRenderer: GROUP_CELL_RENDERER,
             cellRendererParams: {
                 suppressCount: true,
             },
@@ -59,7 +66,7 @@
                     return '';
                 }
 
-                return isGroup(params.data) ? 'Группа' : 'Элемент';
+                return isGroup(params.data) ? CATEGORY_GROUP : CATEGORY_ELEMENT;
             },
         },
         {
@@ -78,7 +85,7 @@
     ];
 
     function toPathKey(id: TTreeItemId): string {
-        return typeof id === 'number' ? `n:${id}` : `s:${id}`;
+        return typeof id === 'number' ? `${NUMBER_PATH_PREFIX}${id}` : `${STRING_PATH_PREFIX}${id}`;
     }
 
     const getDataPath: GetDataPath<TTreeItem> = (data) => {
